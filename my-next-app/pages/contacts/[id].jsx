@@ -14,10 +14,23 @@ export const getStaticPaths = async () => {
   };
 };
 
-const Contact = () => {
+export const getStaticProps = async (context) => {
+  const id = context.params.id;
+  const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
+  const data = await res.json();
+
+  return {
+    props: { contact: data },
+  };
+};
+
+const Contact = ({ contact }) => {
   return (
     <div>
-      <h1>Details page</h1>
+      <h1>{contact.name}</h1>
+      <p>{contact.email}</p>
+      <p>{contact.website}</p>
+      <p>{contact.address.city}</p>
     </div>
   );
 };
